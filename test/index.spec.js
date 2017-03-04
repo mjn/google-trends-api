@@ -1,7 +1,8 @@
 import chai from 'chai';
-import google from '../src';
+import Google from '../src';
 
 const expect = chai.expect;
+const google = new Google();
 
 describe('index', () => {
   describe('should have the following methods:', () => {
