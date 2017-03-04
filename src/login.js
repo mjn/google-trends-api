@@ -10,16 +10,12 @@ export default function request({method, host, path, qs, form, headers}) {
     path: `${path}?${querystring.stringify(qs)}`,
   };
 
-  // console.log('path', options.path)
-  // console.log('form', form);
-
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
       let chunk = '';
 
       const setCookie = res.headers['set-cookie'];
 
-      console.log('did i set the cookie?', setCookie);
       res.on('data', (data) => {
         chunk += data;
       });
@@ -36,7 +32,6 @@ export default function request({method, host, path, qs, form, headers}) {
       reject(e);
     });
 
-    // console.log('check queryString', `data=${querystring.stringify(form)}`)
     if (form) req.write(`data=${querystring.stringify(form)}`);
     req.end();
   });
@@ -70,27 +65,16 @@ export function login({email, password}) {
     form.Passwd = password;
     authOptions.form = form;
 
-    // console.log('here is the form', form);
-    // const cookies = results.cookies.map((cookie) => {
-    //   return cookie.split(';').reduce((acc, curr) => {
-    //     acc[curr.split('=')[0]] = curr.split('=')[1];
-    //     return acc;
-    //   }, {});
-    // });
-
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Content-Length': Buffer.byteLength(form),
-      // 'cookie': `${results.cookies[0].split(';')[0]}; ${results.cookies[1].split(';')[0]}`
     };
 
     authOptions.headers = headers;
 
-    // console.log('cookie', headers['cookie'])
     return request(authOptions);
   })
   .then((results) => {
-    // console.log('rejecting?', results.cookies[0].split(';')[0]);
     this.cookie = results.cookies[0].split(';')[0];
   });
 

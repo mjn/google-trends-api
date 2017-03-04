@@ -10,8 +10,6 @@ export default function request({method, host, path, qs, cookie}) {
     path: `${path}?${querystring.stringify(qs)}`,
   };
 
-  console.log('here are options', options);
-
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
       let chunk = '';
