@@ -61,6 +61,8 @@ export function constructObj(obj, cbFunc) {
 
   if (!obj.hl) obj.hl = 'en-US';
 
+  if (!obj.category) obj.category = 0;
+
   if (!cbFunc) {
     cbFunc = (err, res) => {
       if (err) return err;
@@ -149,13 +151,20 @@ export function getResults(searchType, obj) {
     },
   };
 
+  const agent = obj.agent || null;
+
+  if (obj.agent) {
+    delete obj.agent;
+  }
+
   const options = {
     method: 'GET',
     host: 'trends.google.com',
     path: '/trends/api/explore',
+    agent: agent,
     qs: {
       hl: obj.hl,
-      req: JSON.stringify({comparisonItem: formatKeywords(obj), cat: 0}),
+      req: JSON.stringify({comparisonItem: formatKeywords(obj), category: obj.category}),
       tz: 300,
     },
   };
@@ -174,6 +183,7 @@ export function getResults(searchType, obj) {
       path,
       method: 'GET',
       host: 'trends.google.com',
+      agent: agent,
       qs: {
         hl: obj.hl,
         req,

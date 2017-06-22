@@ -2,11 +2,12 @@
 import https from 'https';
 import querystring from 'querystring';
 
-export default function request({method, host, path, qs}) {
+export default function request({method, host, path, qs, agent}) {
   const options = {
     host,
     method,
     path: `${path}?${querystring.stringify(qs)}`,
+    agent: agent,
   };
 
   return new Promise((resolve, reject) => {
