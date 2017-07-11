@@ -8,6 +8,9 @@ export default function request({method, host, path, qs, agent}) {
     method,
     path: `${path}?${querystring.stringify(qs)}`,
     agent: agent,
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    }
   };
 
   return new Promise((resolve, reject) => {
